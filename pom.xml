@@ -9,10 +9,10 @@
         <relativePath/> <!-- lookup parent from repository -->
     </parent>
     <groupId>com.tes</groupId>
-    <artifactId>ebay-user-auth-service</artifactId>
-    <version>0.0.9.1</version>
-    <name>ebay-user-auth-service</name>
-    <description>ebay-user-auth-service</description>
+    <artifactId>ebay-ebayUser-auth-service</artifactId>
+    <version>0.1</version>
+    <name>ebay-ebayUser-auth-service</name>
+    <description>ebay-ebayUser-auth-service</description>
     <properties>
         <java.version>17</java.version>
     </properties>
