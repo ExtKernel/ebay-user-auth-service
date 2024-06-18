@@ -1,6 +1,6 @@
 package com.tes.ebayuserauthservice.exception;
 
-public class ExpiredRefreshTokenException extends RuntimeException {
+public class ExpiredRefreshTokenException extends Exception {
     public ExpiredRefreshTokenException(String message) {
         super(message);
     }
