@@ -1,39 +1,35 @@
 package com.tes.ebayuserauthservice.model;
 
-import jakarta.persistence.*;
+import jakarta.persistence.Column;
+import jakarta.persistence.MappedSuperclass;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
-import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.proxy.HibernateProxy;
 
-import java.util.Date;
 import java.util.Objects;
 
 /**
- * A class that represents any auth object withing the business domain.
- * Any other auth object should inherit from this class.
+ * A class for representing Oauth2 tokens.
+ * Any class that represents such should inherit from this class.
  */
 @Getter
 @Setter
 @ToString
 @RequiredArgsConstructor
 @MappedSuperclass
-public class AuthModel {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id", nullable = false)
-    private Long id;
+public class Token extends AuthModel {
 
-    @Column(name = "expires_in")
-    private int expiresIn;
+    @Column(name = "token", length = 2560)
+    private String token;
 
-    @CreationTimestamp
-    Date creationDate;
-
-    public AuthModel(int expiresIn) {
-        this.expiresIn = expiresIn;
+    public Token(
+            String token,
+            int expiresIn
+    ) {
+        super(expiresIn);
+        this.token = token;
     }
 
     @Override
@@ -47,8 +43,8 @@ public class AuthModel {
                 .getHibernateLazyInitializer()
                 .getPersistentClass() : this.getClass();
         if (thisEffectiveClass != oEffectiveClass) return false;
-        AuthModel that = (AuthModel) o;
-        return getId() != null && Objects.equals(getId(), that.getId());
+        Token token = (Token) o;
+        return getId() != null && Objects.equals(getId(), token.getId());
     }
 
     @Override

@@ -5,7 +5,14 @@ import com.tes.ebayuserauthservice.exception.ModelNotFoundException;
 import java.util.List;
 import java.util.Optional;
 
+/**
+ * An interface for a generic CRUD {@link org.springframework.stereotype.Service}.
+ *
+ * @param <T> the type of object on which CRUD operations will be performed.
+ * @param <ID> the type of the id the object has.
+ */
 public interface CrudService<T, ID> {
+
     /**
      * Saves a {@link T}.
      *

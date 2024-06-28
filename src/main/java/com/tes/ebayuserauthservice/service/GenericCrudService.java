@@ -8,6 +8,13 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import java.util.List;
 import java.util.Optional;
 
+/**
+ * A generic class that implements the generic behaviour
+ * of services that perform CRUD operations.
+ *
+ * @param <T> the type of objects on which CRUD operations will be performed.
+ * @param <ID> the type of the id of the {@link T} objects.
+ */
 public abstract class GenericCrudService<T, ID> implements CrudService<T, ID> {
     private final JpaRepository<T, ID> repository;
 

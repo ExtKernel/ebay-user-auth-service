@@ -1,6 +1,5 @@
 package com.tes.ebayuserauthservice.model;
 
-import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
@@ -15,20 +14,16 @@ import java.util.Objects;
 @ToString
 @RequiredArgsConstructor
 @Entity
-public class RefreshToken extends AuthModel {
-    @Column(name = "refresh_token")
-    private String refreshToken;
-
-    public RefreshToken(String refreshToken) {
-        this.refreshToken = refreshToken;
-    }
+public class RefreshToken extends Token {
 
     public RefreshToken(
-            String refreshToken,
+            String token,
             int expiresIn
     ) {
-        super(expiresIn);
-        this.refreshToken = refreshToken;
+        super(
+                token,
+                expiresIn
+        );
     }
 
     @Override

@@ -9,7 +9,10 @@ import com.tes.ebayuserauthservice.token.TokenManager;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 /**
- * @param <T> an object, which is supposed to be used for retrieval of a refresh token.
+ * A generic class that implements the generic behaviour
+ * of services that manage {@link RefreshToken} objects.
+ *
+ * @param <T> the object, which is supposed to be used for retrieval of refresh tokens.
  */
 public abstract class GenericRefreshTokenService<T extends AuthModel>
         extends GenericCrudService<RefreshToken, Long>
@@ -44,20 +47,4 @@ public abstract class GenericRefreshTokenService<T extends AuthModel>
             );
         }
     }
-
-//    public RefreshToken getValid() {
-//        try {
-//            RefreshToken refreshToken = findLatest();
-//            Date refreshTokenExpirationDate = Date.from(Instant.ofEpochMilli(
-//                    refreshToken.getCreationDate().getTime() + refreshToken.getExpiresIn()));
-//
-//            if (!refreshTokenExpirationDate.after(new Date())) {
-//                return generate();
-//            } else {
-//                return refreshToken;
-//            }
-//        } catch (NoRecordOfRefreshTokenException exception) {
-//            return generate();
-//        }
-//    }
 }

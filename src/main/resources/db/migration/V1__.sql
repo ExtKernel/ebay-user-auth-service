@@ -52,9 +52,6 @@ ALTER TABLE ebay_user_auth_codes
 ALTER TABLE ebay_user_refresh_tokens
     ADD CONSTRAINT uc_ebay_user_refresh_tokens_refreshtokens UNIQUE (refresh_tokens_id);
 
-ALTER TABLE auth_code
-    ADD CONSTRAINT FK_AUTHCODE_ON_AUTH_CODE FOREIGN KEY (auth_code) REFERENCES ebay_user (id);
-
 ALTER TABLE ebay_user_auth_codes
     ADD CONSTRAINT fk_ebauseautcod_on_auth_code FOREIGN KEY (auth_codes_id) REFERENCES auth_code (id);
 

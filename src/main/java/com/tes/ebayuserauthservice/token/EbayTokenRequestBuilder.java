@@ -2,14 +2,12 @@ package com.tes.ebayuserauthservice.token;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.tes.ebayuserauthservice.exception.RestTemplateResponseErrorHandler;
 import com.tes.ebayuserauthservice.exception.WritingAuthCodeRequestBodyToJsonStringException;
 import com.tes.ebayuserauthservice.exception.WritingRefreshTokenRequestBodyToJsonStringException;
 import com.tes.ebayuserauthservice.model.AuthCode;
 import com.tes.ebayuserauthservice.model.RefreshToken;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.boot.web.client.RestTemplateBuilder;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
@@ -21,9 +19,8 @@ import java.util.HashMap;
 import java.util.Map;
 
 @Component
-public class EbayTokenRequestBuilder implements TokenRequestBuilder {
+public class EbayTokenRequestBuilder implements TokenRequestBuilder<AuthCode> {
     ObjectMapper objectMapper;
-    RestTemplateBuilder restTemplateBuilder;
 
     @Value("${ebayClientId}")
     private String clientId;
@@ -36,11 +33,9 @@ public class EbayTokenRequestBuilder implements TokenRequestBuilder {
 
     @Autowired
     public EbayTokenRequestBuilder(
-            ObjectMapper objectMapper,
-            RestTemplateBuilder restTemplateBuilder
+            ObjectMapper objectMapper
     ) {
         this.objectMapper = objectMapper;
-        this.restTemplateBuilder = restTemplateBuilder;
     }
 
     @Override
@@ -52,7 +47,7 @@ public class EbayTokenRequestBuilder implements TokenRequestBuilder {
     }
 
     @Override
-    public String buildAuthCodeRequestBody(AuthCode authCode) {
+    public String buildAuthModelRequestBody(AuthCode authCode) {
         Map<String, String> requestBody = new HashMap<>();
         requestBody.put("grant_type", "authorization_code");
         requestBody.put("code", authCode.getAuthCode());
@@ -73,7 +68,7 @@ public class EbayTokenRequestBuilder implements TokenRequestBuilder {
     public String buildRefreshTokenRequestBody(RefreshToken refreshToken) {
         Map<String, String> requestBody = new HashMap<>();
         requestBody.put("grant_type", "refresh_token");
-        requestBody.put("refresh_token", refreshToken.getRefreshToken());
+        requestBody.put("refresh_token", refreshToken.getToken());
 
         try {
             return objectMapper.writeValueAsString(requestBody);
@@ -88,7 +83,7 @@ public class EbayTokenRequestBuilder implements TokenRequestBuilder {
 
     @Override
     public RestTemplate getRestTemplate() {
-        return restTemplateBuilder.errorHandler(new RestTemplateResponseErrorHandler()).build();
+        return new RestTemplate();
     }
 
     private HttpHeaders buildHeaders() {

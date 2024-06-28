@@ -1,6 +1,5 @@
 package com.tes.ebayuserauthservice.controller;
 
-import com.tes.ebayuserauthservice.model.AuthCode;
 import com.tes.ebayuserauthservice.model.EbayUser;
 import com.tes.ebayuserauthservice.model.RefreshToken;
 import com.tes.ebayuserauthservice.service.Oauth2UserService;
@@ -12,10 +11,10 @@ import java.util.Optional;
 @RequestMapping("/user")
 @RestController
 public class EbayUserController {
-    private final Oauth2UserService<EbayUser, Long, AuthCode> service;
+    private final Oauth2UserService<EbayUser, Long> service;
 
     @Autowired
-    public EbayUserController(Oauth2UserService<EbayUser, Long, AuthCode> service) {
+    public EbayUserController(Oauth2UserService<EbayUser, Long> service) {
         this.service = service;
     }
 

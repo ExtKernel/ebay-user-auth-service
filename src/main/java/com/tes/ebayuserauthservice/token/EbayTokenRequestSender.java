@@ -18,10 +18,10 @@ import org.springframework.web.client.RestTemplate;
  * Sends specific to the eBay API token related requests.
  */
 @Component
-public class EbayTokenRequestSender implements TokenRequestSender {
+public class EbayTokenRequestSender implements TokenRequestSender<AuthCode> {
     ObjectMapper objectMapper;
     RestTemplate restTemplate;
-    TokenRequestBuilder requestBuilder;
+    TokenRequestBuilder<AuthCode> requestBuilder;
 
     @Value("${ebayTokenUrl}")
     private String ebayTokenUrl;
@@ -29,7 +29,7 @@ public class EbayTokenRequestSender implements TokenRequestSender {
     @Autowired
     public EbayTokenRequestSender(
             ObjectMapper objectMapper,
-            TokenRequestBuilder requestBuilder
+            TokenRequestBuilder<AuthCode> requestBuilder
     ) {
         this.objectMapper = objectMapper;
         this.restTemplate = requestBuilder.getRestTemplate();
@@ -47,7 +47,7 @@ public class EbayTokenRequestSender implements TokenRequestSender {
                     ebayTokenUrl,
                     HttpMethod.POST,
                     requestBuilder.buildHttpRequestEntity(
-                            requestBuilder.buildAuthCodeRequestBody(authCode)),
+                            requestBuilder.buildAuthModelRequestBody(authCode)),
                     String.class
             ).getBody());
         } catch (JsonProcessingException exception) {

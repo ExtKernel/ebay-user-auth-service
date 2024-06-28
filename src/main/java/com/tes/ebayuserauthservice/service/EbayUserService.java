@@ -20,7 +20,7 @@ import java.util.Optional;
 @Service
 public class EbayUserService
         extends GenericCrudService<EbayUser, Long>
-        implements Oauth2UserService<EbayUser, Long, AuthCode> {
+        implements Oauth2UserService<EbayUser, Long> {
     AuthCodeService authCodeService;
     TokenManager<AuthCode> tokenManager;
     TokenService<RefreshToken, AuthCode> refreshTokenService;
@@ -48,7 +48,7 @@ public class EbayUserService
 
     @Override
     public RefreshToken generateRefreshToken(Long userId) {
-        return refreshTokenService.generate(authCodeService.findLatest());
+        return refreshTokenService.generate(authCodeService.getValid());
     }
 
     @Override

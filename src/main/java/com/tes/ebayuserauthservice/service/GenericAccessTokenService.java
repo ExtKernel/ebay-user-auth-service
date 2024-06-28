@@ -1,7 +1,7 @@
 package com.tes.ebayuserauthservice.service;
 
-import com.tes.ebayuserauthservice.exception.NoRecordOfRefreshTokenException;
-import com.tes.ebayuserauthservice.exception.RefreshTokenIsNullException;
+import com.tes.ebayuserauthservice.exception.AccessTokenIsNullException;
+import com.tes.ebayuserauthservice.exception.NoRecordOfAccessTokenException;
 import com.tes.ebayuserauthservice.model.AccessToken;
 import com.tes.ebayuserauthservice.model.AuthCode;
 import com.tes.ebayuserauthservice.model.RefreshToken;
@@ -9,6 +9,10 @@ import com.tes.ebayuserauthservice.repository.AccessTokenRepository;
 import com.tes.ebayuserauthservice.token.TokenManager;
 import org.springframework.data.jpa.repository.JpaRepository;
 
+/**
+ * A generic class that implements the generic behaviour
+ * of services that manage {@link AccessToken} objects.
+ */
 public abstract class GenericAccessTokenService
         extends GenericCrudService<AccessToken, Long>
         implements TokenService<AccessToken, RefreshToken> {
@@ -31,12 +35,12 @@ public abstract class GenericAccessTokenService
     }
 
     @Override
-    public AccessToken findLatest() throws NoRecordOfRefreshTokenException {
+    public AccessToken findLatest() throws NoRecordOfAccessTokenException {
         try {
             return tokenRepository.findFirstByOrderByCreationDateDesc()
-                    .orElseThrow(() -> new RefreshTokenIsNullException("The refresh token is null"));
-        } catch (RefreshTokenIsNullException exception) {
-            throw new NoRecordOfRefreshTokenException(
+                    .orElseThrow(() -> new AccessTokenIsNullException("The access token is null"));
+        } catch (AccessTokenIsNullException exception) {
+            throw new NoRecordOfAccessTokenException(
                     "There is no record of access tokens in the database: " + exception.getMessage(),
                     exception
             );
